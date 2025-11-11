@@ -6,7 +6,7 @@ I’m a **Software Systems Engineering student** at the University of Regina wit
 
 ### 💻 About Me
 
-- 🎓 Currently pursuing a **BASc in Software Systems Engineering** (CGPA: 79.84)  
+- 🎓 Currently pursuing a **BASc in Software Systems Engineering**
 - 🧑‍🏫 **Code Instructor at Code Ninjas Regina**, where I’ve taught over **130 kids** programming through fun, interactive projects  
 - ⚙️ Passionate about **software development**, **data-driven systems**, and exploring the logic behind how things work  
 - 🤝 Love collaborating on projects that solve real-world problems while making technology approachable for others  
