@@ -21,3 +21,30 @@ flowchart LR
     L2 <-->|"RD-7: 8h"| L5
     L3 <-->|"RD-5: 3h"| L5
 ```
+
+```mermaid
+flowchart LR
+    subgraph PL["Your Planner (any language)"]
+        D("decide(state)")
+        C["solutions/client.py<br/>Client + run_loop()"]
+        R["Rollout copy<br/>Simulation.from_public_state()"]
+    end
+
+    subgraph EN["engine/ (Python stdlib only)"]
+        S["server.py<br/>ThreadingHTTPServer + Handler<br/>(global _sim behind _lock)"]
+        SIM["sim.py<br/>Simulation"]
+        V("validate_scenario()")
+        T["travel.py<br/>Dijkstra + lru_cache"]
+    end
+
+    F[("scenarios/*.json<br/>7day, 90day")]
+
+    D --> C
+    C -- "HTTP JSON on :8600" --> S
+    S -- "_load_scenario(name)" --> F
+    F --> V --> SIM
+    S -- "dispatch / move / cancel<br/>advance / state / report" --> SIM
+    SIM -- "shortest_hours()" --> T
+    D -. "what-if" .-> R
+    R -. "same rules,<br/>empty event queue" .-> T
+```
