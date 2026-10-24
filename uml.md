@@ -23,7 +23,7 @@ flowchart LR
 ```
 
 ```mermaid
-flowchart LR
+flowchart TD
     subgraph PL["Your Planner (any language)"]
         D("decide(state)")
         C["solutions/client.py<br/>Client + run_loop()"]
@@ -32,19 +32,21 @@ flowchart LR
 
     subgraph EN["engine/ (Python stdlib only)"]
         S["server.py<br/>ThreadingHTTPServer + Handler<br/>(global _sim behind _lock)"]
-        SIM["sim.py<br/>Simulation"]
         V("validate_scenario()")
+        SIM["sim.py<br/>Simulation"]
         T["travel.py<br/>Dijkstra + lru_cache"]
     end
 
     F[("scenarios/*.json<br/>7day, 90day")]
 
     D --> C
+    D -. "what-if" .-> R
+    
     C -- "HTTP JSON on :8600" --> S
     S -- "_load_scenario(name)" --> F
     F --> V --> SIM
     S -- "dispatch / move / cancel<br/>advance / state / report" --> SIM
     SIM -- "shortest_hours()" --> T
-    D -. "what-if" .-> R
+    
     R -. "same rules,<br/>empty event queue" .-> T
 ```
